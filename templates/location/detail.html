@@ -1,0 +1,18 @@
+{% extends 'base/theme.html' %}
+{% block main_content %}
+<div class="row main-content">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+			<div class='panel'>
+				{% if location.image_file %}
+					<center><img src="{{ location.image_file.url }}" width="70%"></img></center>
+				{% endif %}
+				<h3>{{ location.title }}</h3>
+				{% if location.address %}<p><b>Location:</b> {{ location.address }}</p>{% endif %}
+				{% if location.hours %}<p>{{ location.hours }}</p>{% endif %}
+				<p>{{ location.description }}</p>
+			</div>
+	</div>
+	<div class="col-md-2"></div>
+</div>
+{% endblock %}
