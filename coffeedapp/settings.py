@@ -78,7 +78,10 @@ WSGI_APPLICATION = 'coffeedapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-ON_HEROKU = os.environ.get('ON_HEROKU')
+if 'DYNO' in os.environ:
+    ON_HEROKU = True
+else:
+    ON_HEROKU = False
 
 
 if ON_HEROKU == True:
@@ -86,7 +89,6 @@ if ON_HEROKU == True:
     import dj_database_url
 
     DATABASES['default'] = dj_database_url.config()
-    DATABASES['default']['ENGINE'] = 'django-postgrespool'
 # else: 
 
 #     DATABASES = {
@@ -122,7 +124,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(MAIN_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
     )
 
 STATIC_ROOT = 'staticfiles'
