@@ -86,7 +86,7 @@ if ON_HEROKU == True:
     import dj_database_url
 
     DATABASES['default'] = dj_database_url.config()
-
+    DATABASES['default']['ENGINE'] = 'django-postgrespool'
 else: 
 
     DATABASES = {
