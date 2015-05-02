@@ -77,17 +77,21 @@ WSGI_APPLICATION = 'coffeedapp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-    # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES = {'default': dj_database_url.config()}
-# else: 
+# Parse database configuration from $DATABASE_URL
 
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(MAIN_DIR, 'db.sqlite3'),
-#         }
-#     }
+ON_HEROKU = os.environ.get('ON_HEROKU')
+
+if ON_HEROKU == True:
+    import dj_database_url
+    DATABASES = {'default': dj_database_url.config()}
+else: 
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(MAIN_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -115,7 +119,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(MAIN_DIR, 'static'),
     )
 
 STATIC_ROOT = 'staticfiles'
