@@ -58,3 +58,4 @@ target/
 
 # DZ Added
 *.pyc
+*.sqlite3
