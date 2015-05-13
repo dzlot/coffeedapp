@@ -1,8 +1,19 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+
 
 import os
 import uuid
+
+RATING_CHOICES = (
+	(0, 'None'),
+	(1, '*'),
+	(2, '**'),
+	(3, '***'),
+	(4, '****'),
+	(5, '*****'),
+	)
 
 def upload_to_location(instance, filename):
     blocks = filename.split('.')
@@ -26,3 +37,23 @@ class Location(models.Model):
 
 	def __unicode__(self):
 		return self.title
+
+	def get_average_rating(self):
+        average = self.review_set.all().aggregate(Avg('rating'))['rating__avg']
+        if average == None:
+            return average
+        else:
+            return int(average)
+
+class Review(models.Model):
+	location = models.ForeignKey(Location)
+	user = models.ForeignKey(User)
+	description = models.TextField(null=True, blank=True)
+	rating = models.IntegerField(choices=RATING_CHOICES)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __unicode__(self):
+		return str(self.location) + ': ' + str(self.user) + ': ' + str(self.created_at)
+
+
+
