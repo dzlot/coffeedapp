@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 
 import os
@@ -39,11 +40,11 @@ class Location(models.Model):
 		return self.title
 
 	def get_average_rating(self):
-        average = self.review_set.all().aggregate(Avg('rating'))['rating__avg']
-        if average == None:
-            return average
-        else:
-            return int(average)
+		average = self.review_set.all().aggregate(Avg('rating'))['rating__avg']
+		if average == None:
+			return average
+		else:
+			return int(average)
 
 class Review(models.Model):
 	location = models.ForeignKey(Location)
